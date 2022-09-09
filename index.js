@@ -19,6 +19,10 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html'); // send index.html
 }); 
 
+app.get('/print', (req, res) => {
+    res.sendFile(__dirname + '/pdfs/output.pdf'); // send output.pdf
+});
+
 app.listen(3000, () => {
     console.log('Listening on port 3000');
 });
