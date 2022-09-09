@@ -15,9 +15,9 @@ let PdfPrinter = require('pdfmake');
 let printer = new PdfPrinter(fonts);
 let fs = require('fs');
 
-app.post('/print', (req, res) => {
-    print(req.body);
-});
+app.get('/', (req, res) => { 
+    res.sendFile(__dirname + '/index.html'); // send index.html
+}); 
 
 app.listen(3000, () => {
     console.log('Listening on port 3000');
