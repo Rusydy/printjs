@@ -23,6 +23,15 @@ app.get('/print', (req, res) => {
     res.sendFile(__dirname + '/pdfs/output.pdf'); // send output.pdf
 });
 
+app.post('/print', (req, res) => {
+    try {
+        print(req.body);
+        res.redirect('/');
+    } catch (error) {
+        res.send(error);
+    }
+});
+
 app.listen(3000, () => {
     console.log('Listening on port 3000');
 });
