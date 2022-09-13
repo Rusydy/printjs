@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- to remove favicon.ico error -->
+    <link rel="shortcut icon" href="#">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        input[type=text],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
+
+    <title>Print JS</title>
+</head>
+
+<body>
+    <h3>Consignment Security Declaration Form</h3>
+
+    <div class="container">
+        <form id="form" action="/api/print/csd" method="post">
+            <label for="airwaybill_number">Airway Bill Number</label>
+            <input type="text" id="airwaybill_number" name="airwaybill_number" placeholder="Airway Bill Number..">
+
+            <label for="airline_number">Airline Number</label>
+            <input type="text" id="airline_number" name="airline_number" placeholder="Airline Number..">
+
+            <label for="flight_number">Flight Number</label>
+            <input type="text" id="flight_number" name="flight_number" placeholder="Flight Number..">
+
+            <label for="flight_date">Flight Date</label><br>
+            <input type="date" id="flight_date" name="flight_date"><br><br>
+
+            <label for="consignment_content">Consignment Content</label>
+            <input type="text" id="consignment_content" name="consignment_content" placeholder="Consignment Content..">
+
+            <label for="origin">Origin</label>
+            <input type="text" id="origin" name="origin" placeholder="Origin..">
+
+            <label for="destination">Destination</label>
+            <input type="text" id="destination" name="destination" placeholder="Destination..">
+
+            <label for="transit_point">Transit Point</label>
+            <input type="text" id="transit_point" name="transit_point" placeholder="Transit Point..">
+            <input type="submit" value="Submit">
+            <button>
+                <a href="/api/print/csd" method="get">Print</a>
+            </button>
+        </form>
+    </div>
+</body>
+
+</html>
