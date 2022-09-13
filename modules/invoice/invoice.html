@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- to remove favicon.ico error -->
+    <link rel="shortcut icon" href="#">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        input[type=text],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
+
+    <title>Print JS</title>
+</head>
+
+<body>
+    <h3>Invoice</h3>
+
+    <div class="container">
+        <form id="form" action="/api/print/invoice" method="post">
+            <!-- change this form -->
+            <label for="invoice_number">Invoice Number</label>
+            <input type="text" id="invoice_number" name="invoice_number" placeholder="Invoice Number..">
+
+            <label for="invoice_address">Invoice Address</label>
+            <input type="text" id="invoice_address" name="invoice_address" placeholder="Invoice Address..">
+
+            <table id="invoice_details" name="invoice_details">
+                <thead>
+                    <tr>
+                        <td>CSC Number</td>
+                        <td>Weight</td>
+                        <td>Rate per KG</td>
+                        <td>
+                            <button type="button" onclick="addRow()">ADD</button>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" id="csc_number" name="csc_number" placeholder="CSC Number.."></td>
+                        <td><input type="text" id="weight" name="weight" placeholder="Weight.."></td>
+                        <td><input type="text" id="rate_per_kg" name="rate_per_kg" placeholder="Rate per KG.."></td>
+                    </tr>
+                </tbody>
+            </table>
+            <script>
+                function addRow() {
+                    var table = document.getElementById("invoice_details");
+                    var row = table.insertRow(table.rows.length);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    cell1.innerHTML = "<input type='text' class='csc_number' name='csc_number' placeholder='CSC Number..'>";
+                    cell2.innerHTML = "<input type='text' class='weight' name='weight' placeholder='Weight..'>";
+                    cell3.innerHTML = "<input type='text' class='rate_per_kg' name='rate_per_kg' placeholder='Rate per KG..'>";
+                }
+            </script>
+
+            <input type="text" id="total_amount" name="total_amount" placeholder="Total Amount..">
+            <script>
+                // total amount calculation still not working
+                var form = document.getElementById("invoice_details");
+                var sum = 0;
+                for (var i = 1; i < form.rows.length; i++) {
+                    sum = sum + parseInt(form.rows[i].cells[1].innerHTML);
+                }
+                document.getElementById("total_amount").innerHTML = sum;
+            </script>
+
+            <input type="text" id="total_amount_in_words" name="total_amount_in_words"
+                placeholder="Total Amount in Words..">
+            <input type="text" id="sub_total" name="sub_total" placeholder="sub total..">
+            <input type="text" id="tax" name="tax" placeholder="tax..">
+            <input type="text" id="grand_total" name="grand_total" placeholder="Grand Total..">
+
+            <input type="submit" value="Submit">
+            <button>
+                <a href="/api/print/invoice" method="get">Print</a>
+            </button>
+        </form>
+    </div>
+</body>
+
+</html>
