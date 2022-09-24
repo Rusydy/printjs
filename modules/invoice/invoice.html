@@ -51,13 +51,13 @@
     <div class="container">
         <form id="form" action="/api/print/invoice" method="post">
             <!-- change this form -->
-            <label for="invoice_number">Invoice Number</label>
-            <input type="text" id="invoice_number" name="invoice_number" placeholder="Invoice Number..">
+            <label for="number">Invoice Number</label>
+            <input type="text" id="number" name="number" placeholder="Invoice Number..">
 
-            <label for="invoice_address">Invoice Address</label>
-            <input type="text" id="invoice_address" name="invoice_address" placeholder="Invoice Address..">
+            <label for="address">Invoice Address</label>
+            <input type="text" id="address" name="address" placeholder="Invoice Address..">
 
-            <table id="invoice_details" name="invoice_details">
+            <table id="details" name="details">
                 <thead>
                     <tr>
                         <td>CSC Number</td>
@@ -78,7 +78,7 @@
             </table>
             <script>
                 function addRow() {
-                    var table = document.getElementById("invoice_details");
+                    var table = document.getElementById("details");
                     var row = table.insertRow(table.rows.length);
                     var cell1 = row.insertCell(0);
                     var cell2 = row.insertCell(1);

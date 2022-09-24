@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function getData() {
+            return $.ajax({
+                url: '/api/invoice',
+                type: 'GET',
+                async: false,
+                success: function (data){
+                    window.dummy_data = data;
+                }
+            })
+        };
+        var dummy_data = getData().responseJSON;
+    </script>
+    <!-- one div with three columns -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-4" style="visibility: hidden;">
+                <p>Invoice</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            </div>
+            <div class="col-4" style="visibility: hidden;">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            </div>
+            <div class="col-4">
+                <script>
+                    document.write('<p>' + dummy_data.number + '</p>');
+                    document.write('<p>' + dummy_data.address + '</p>');
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <!-- table to list csc number -->
+    <div class="container">
+        <table class="table table-borderless">
+            <tbody>
+            </tbody>
+        </table>
+
+        <!-- add div according data length -->
+        <script>
+            let data = dummy_data;
+            let tbody = document.querySelector('tbody');
+            for (let i = 0; i < data.csc_number.length; i++) {
+                let tr = document.createElement('tr');
+                let td0 = document.createElement('td');
+                let td1 = document.createElement('td');
+                let td2 = document.createElement('td');
+                let td3 = document.createElement('td');
+                let td4 = document.createElement('td');
+                td0.innerHTML = i + 1;
+                td1.innerHTML = data.csc_number[i];
+                td2.innerHTML = data.weight[i];
+                td3.innerHTML = data.rate_per_kg[i];
+                td4.innerHTML = data.total_amount;
+                tr.appendChild(td0);
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                tbody.appendChild(tr);
+            }
+
+            // if data.csc_number less than 6, add empty row
+            if (data.csc_number.length < 6) {
+                for (let i = 0; i < 6 - data.csc_number.length; i++) {
+                    let tr = document.createElement('tr');
+                    let td0 = document.createElement('td');
+                    let td1 = document.createElement('td');
+                    let td2 = document.createElement('td');
+                    let td3 = document.createElement('td');
+                    let td4 = document.createElement('td');
+                    td0.innerHTML = '';
+                    td1.innerHTML = '';
+                    td2.innerHTML = '';
+                    td3.innerHTML = '';
+                    td4.innerHTML = '';
+                    tr.appendChild(td0);
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+                    tr.appendChild(td4);
+                    tbody.appendChild(tr);
+                }
+            }
+        </script>
+    </div>
+
+    <!-- add total amount in words -->
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <script>
+                    document.write('<p>' + dummy_data.total_amount_in_words + '</p>');
+                </script>
+            </div>
+            <div class="col-4">
+                <script>
+                    document.write('<p class="m-1">' + dummy_data.sub_total + '</p>');
+                    document.write('<p class="m-1">' + dummy_data.tax + '</p>');
+                    document.write('<p class="m-1">' + dummy_data.tax_amount + '</p>');
+                </script>
+            </div>
+        </div>
+
+        <!-- add date when document printed -->
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <script>
+                        let date = new Date();
+                        let day = date.getDate();
+                        let month = date.getMonth() + 1;
+                        let year = date.getFullYear();
+                        document.write('<p class="">' + day + '/' + month + '/' + year + '</p>');
+                    </script>
+                </div>
+                <div class="col-3">
+                    <script>
+                        let hour = date.getHours();
+                        let minute = date.getMinutes();
+                        document.write('<p class="">Time: ' + hour + ':' + minute + '</p>');
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.print();
+    </script>
+
+</body>
+
+</html>
