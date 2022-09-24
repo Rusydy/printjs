@@ -1,0 +1,175 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- to remove favicon.ico error -->
+    <link rel="shortcut icon" href="#">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* input, */
+        input[type=text],
+        input[type=number],
+        select,
+        /* button, */
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
+
+    <title>Print JS</title>
+</head>
+
+<body>
+    <h3>Handover</h3>
+
+    <div class="container">
+        <form id="form" action="/api/print/handover" method="post">
+            <!-- change this form -->
+            <label for="handover_number">Handover Number</label>
+            <input type="number" id="handover_number" name="handover_number" placeholder="Handover Number..">
+
+            <label for="police_number">Handover Address</label>
+            <input type="number" id="police_number" name="police_number" placeholder="Handover Address..">
+
+            <label for="seal_number">Seal Number</label>
+            <input type="number" id="seal_number" name="seal_number" placeholder="Seal Number..">
+
+            <table id="details" name="details">
+                <thead>
+                    <tr>
+                        <th>SMU Number</th>
+                        <th>Koli</th>
+                        <th>Weight(Kg)</th>
+                        <th>Type</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="row">
+                        <td><input type="text" name="smu_number[]" placeholder="Enter your smu number"
+                                class="form-control name_list" /></td>
+                        <td><input type="text" name="koli[]" placeholder="Enter your koli in number"
+                                class="form-control name_list" /></td>
+                        <td><input type="text" name="weight[]" placeholder="Enter your weight in number"
+                                class="form-control name_list" /></td>
+                        <td><input type="text" name="type[]" placeholder="Enter your type"
+                                class="form-control name_list" /></td>
+                        <td><input type="text" name="note[]" placeholder="Enter your note"
+                                class="form-control name_list" /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="btn-group row">
+                <button type="button" name="add" id="add" class="btn btn-success">Add More</button>
+                <button type="button" name="remove" id="remove" class="btn btn-danger">Remove</button>
+            </div>
+            <br>
+
+            <script>
+                $(document).ready(function () {
+                    var i = 1;
+                    $('#add').click(function () {
+                        i++;
+                        $('#details').append('<tr id="row' + i + '"></td><td><input type="text" name="smu_number[]" placeholder="Enter your smu number" class="form-control name_list" /></td><td><input type="text" name="koli[]" placeholder="Enter your koli" class="form-control name_list" /></td><td><input type="text" name="weight[]" placeholder="Enter your weight" class="form-control name_list" /></td><td><input type="text" name="type[]" placeholder="Enter your type" class="form-control name_list" /></td><td><input type="text" name="note[]" placeholder="Enter your note" class="form-control name_list" /></td>');
+                    });
+
+                    var tr = document.getElementById('row');
+                    $('#remove').click(function () {
+                        if (i > 1) {
+                            $('#row' + i).remove();
+                            i--;
+                        }
+                    });
+
+                    // input only number
+                    $('#details').on('keyup', 'input[name="koli[]"]', function () {
+                        this.value = this.value.replace(/[^0-9\.]/g, '');
+                    });
+                    $('#details').on('keyup', 'input[name="weight[]"]', function () {
+                        this.value = this.value.replace(/[^0-9\.]/g, '');
+                    });
+                });
+            </script>
+            <!-- total disabled and value come from Koli, Weight, -->
+            <label for="total_koli">Total Koli</label>
+            <input type="text" id="total_koli" name="total_koli" placeholder="Total Koli.." readonly>
+
+            <label for="total_weight">Total Weight</label>
+            <input type="text" id="total_weight" name="total_weight" placeholder="Total Weight.." readonly>
+
+            <script>
+                $(document).ready(function () {
+                    console.log('ready');
+                    var total_koli = 0;
+                    var total_weight = 0;
+                    $('#details').on('keyup', 'input[name="koli[]"]', function () {
+                        total_koli = 0;
+                        $('#details input[name="koli[]"]').each(function () {
+                            // console.log($(this).val());
+                            total_koli += parseInt($(this).val());
+                        });
+                        $('#total_koli').val(total_koli);
+                    });
+
+                    $('#details').on('keyup', 'input[name="weight[]"]', function () {
+                        total_weight = 0;
+                        $('#details input[name="weight[]"]').each(function () {
+                            total_weight += parseInt($(this).val());
+                        });
+                        $('#total_weight').val(total_weight);
+                    });
+                });
+            </script>
+
+            <!-- laber for supervisor -->
+            <label for="supervisor">Supervisor</label>
+            <input type="text" id="supervisor" name="supervisor" placeholder="Supervisor..">
+
+            <!-- laber for driver -->
+            <label for="driver">Driver</label>
+            <input type="text" id="driver" name="driver" placeholder="Driver..">
+
+            <!-- laber for officer 1 -->
+            <label for="officer_1">Officer 1</label>
+            <input type="text" id="officer_1" name="officer_1" placeholder="Officer 1..">
+
+            <!-- laber for officer 2 -->
+            <label for="officer_2">Officer 2</label>
+            <input type="text" id="officer_2" name="officer_2" placeholder="Officer 2..">
+            
+            <div class="row">
+                <input type="submit" value="Submit">
+                <button>
+                    <a href="/api/print/handover" method="get">Print</a>
+                </button>
+            </div>
+        </form>
+</body>
+
+</html>
