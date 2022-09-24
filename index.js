@@ -28,6 +28,13 @@ app.get('/api/print/invoice', (req, res) => {
     res.sendFile(__dirname + '/pdfs/' + invoice_file_name);
 });
 
+app.get('/api/invoice', (req, res) => {
+    res.json(require('./jsons/invoice.json'));
+});
+app.get('/preview/invoice', (req, res) => {
+    res.sendFile(__dirname + '/modules/invoice/invoice.preview.html');
+});
+
 app.listen(3000, () => {
     console.log('Listening on port 3000');
 });
