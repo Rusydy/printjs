@@ -35,6 +35,21 @@ app.get('/preview/invoice', (req, res) => {
     res.sendFile(__dirname + '/modules/invoice/invoice.preview.html');
 });
 
+// Handover
+app.get('/handover', (req, res) => {
+    res.sendFile(__dirname + '/modules/handover/handover.html');
+});
+
+app.get('/api/handover', (req, res) => {
+    res.json(require('./jsons/handover.json'));
+});
+
+app.get('/preview/handover', (req, res) => {
+    res.sendFile(__dirname + '/modules/handover/handover.preview.html');
+});
+
+app.post('/api/print/handover', handover_controller.print);
+
 app.listen(3000, () => {
     console.log('Listening on port 3000');
 });
